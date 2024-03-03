@@ -44,10 +44,15 @@ namespace BCDownloader
         public static async Task GetFileAsync(string url)
         {
             var albumInfo = await GetAlbumInfoAsync(url);
-            foreach (var trackInfo in albumInfo?.TrackInfo)
-            {
 
+            if (albumInfo?.TrackInfo != null)
+            {
+                foreach (var trackInfo in albumInfo.TrackInfo)
+                {
+
+                }
             }
+
         }
     }
 }
