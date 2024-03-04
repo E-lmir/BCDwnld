@@ -9,7 +9,7 @@ namespace BCDownloader
     {
         public static HttpClient client = new();
 
-        public static async Task<IEnumerable<Trackinfo>> GetTracksAsync(string url)
+        public static async Task<IEnumerable<Trackinfo>?> GetTracksAsync(string url)
         {
             var document = await GetDocumentAsync(url);
             var albumInfo = GetAlbumInfo(document);
