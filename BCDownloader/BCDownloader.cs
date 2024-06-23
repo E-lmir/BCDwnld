@@ -14,17 +14,11 @@ namespace BCDownloader
             var document = await GetDocumentAsync(url);
             var albumInfo = GetAlbumInfo(document);
 
-            var options = new ParallelOptions
-            {
-                MaxDegreeOfParallelism = 1000,
-                CancellationToken = default
-            };
-
             if (albumInfo?.TrackInfo != null)
             {
                 var data = new ConcurrentBag<Trackinfo>();
 
-                await Parallel.ForEachAsync(albumInfo.TrackInfo.ToList(), options, async (trackInfo, ct) =>
+                await Parallel.ForEachAsync(albumInfo.TrackInfo.ToList(), async (trackInfo, ct) =>
                 {
                     var response = await client.GetAsync(trackInfo.File?.downloadPath);
                     trackInfo.Data = await response.Content.ReadAsByteArrayAsync();
@@ -40,6 +34,7 @@ namespace BCDownloader
         private static async Task<string> GetDocumentAsync(string url)
         {
             var response = await client.GetAsync(url);
+
             return await response.Content.ReadAsStringAsync();
         }
 
@@ -48,6 +43,7 @@ namespace BCDownloader
             var doc = new HtmlDocument();
             doc.LoadHtml(document);
             var track = doc.DocumentNode.SelectNodes("//*[@class=\"track-title\"]").Select(x => x.GetDirectInnerText());
+
             return track;
         }
 
@@ -68,12 +64,14 @@ namespace BCDownloader
         public static async Task<byte[]> GetFileDataAsync(string url)
         {
             var response = await client.GetAsync(url);
+
             return await response.Content.ReadAsByteArrayAsync();
         }
 
         public static async Task<byte[]> GetFileAsync(Trackinfo info)
         {
-            var response = await client.GetAsync(info.File.downloadPath);
+            var response = await client.GetAsync(info.File?.downloadPath);
+
             return await response.Content.ReadAsByteArrayAsync();
         }
     }
