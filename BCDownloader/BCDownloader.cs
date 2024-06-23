@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace BCDownloader
 {
-    public class BCDownloader
+    public static class BCDownloader
     {
         public static HttpClient client = new();
 
