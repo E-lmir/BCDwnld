@@ -14,7 +14,7 @@ namespace BCDownloader
             var document = await GetDocumentAsync(url);
             var albumInfo = GetAlbumInfo(document);
 
-            if (albumInfo?.TrackInfo != null)
+            if (albumInfo?.TrackInfo is not null)
             {
                 var data = new ConcurrentBag<Trackinfo>();
 
