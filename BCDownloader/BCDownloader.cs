@@ -7,7 +7,7 @@ namespace BCDownloader
 {
     public static class BCDownloader
     {
-        public static HttpClient client = new();
+        private static HttpClient _client = new();
 
         public static async Task<IEnumerable<Trackinfo>?> GetTracksInfoAsync(string url)
         {
@@ -20,9 +20,13 @@ namespace BCDownloader
 
                 await Parallel.ForEachAsync(albumInfo.TrackInfo.ToList(), async (trackInfo, ct) =>
                 {
-                    var response = await client.GetAsync(trackInfo.File?.downloadPath);
-                    trackInfo.Data = await response.Content.ReadAsByteArrayAsync();
-                    data.Add(trackInfo);
+                    if (trackInfo.File?.DownloadPath is not null)
+                    {
+                        var response = await _client.GetAsync(trackInfo.File.DownloadPath);
+                        trackInfo.Artist ??= albumInfo.Artist;
+                        trackInfo.Data = await response.Content.ReadAsByteArrayAsync();
+                        data.Add(trackInfo);
+                    }
                 });
 
                 return data;
@@ -33,18 +37,9 @@ namespace BCDownloader
 
         private static async Task<string> GetDocumentAsync(string url)
         {
-            var response = await client.GetAsync(url);
+            var response = await _client.GetAsync(url);
 
             return await response.Content.ReadAsStringAsync();
-        }
-
-        public static IEnumerable<string> GetTrackList(string document)
-        {
-            var doc = new HtmlDocument();
-            doc.LoadHtml(document);
-            var track = doc.DocumentNode.SelectNodes("//*[@class=\"track-title\"]").Select(x => x.GetDirectInnerText());
-
-            return track;
         }
 
         private static AlbumInfo? GetAlbumInfo(string document)
@@ -59,20 +54,6 @@ namespace BCDownloader
                 .Replace("&quot;", "\"") ?? string.Empty);
 
             return albumInfo;
-        }
-
-        public static async Task<byte[]> GetFileDataAsync(string url)
-        {
-            var response = await client.GetAsync(url);
-
-            return await response.Content.ReadAsByteArrayAsync();
-        }
-
-        public static async Task<byte[]> GetFileAsync(Trackinfo info)
-        {
-            var response = await client.GetAsync(info.File?.downloadPath);
-
-            return await response.Content.ReadAsByteArrayAsync();
         }
     }
 }
