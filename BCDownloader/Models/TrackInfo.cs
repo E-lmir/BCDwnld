@@ -11,6 +11,7 @@ namespace BCDownloader.Models
     {
         [JsonProperty("file")]
         public File? File { get; set; }
+        [JsonProperty("Data")]
         public byte[]? Data { get; set; }
         [JsonProperty("artist")]
         public string? Artist { get; set; }
