@@ -4,10 +4,10 @@ namespace BCDownloader.Models
 {
     public class AlbumInfo
     {
-        public long art_id { get; set; }
-        public Package[]? packages { get; set; }
-        public string? artist { get; set; }
-        public string? album_release_date { get; set; }
+        [JsonProperty("artist")]
+        public string? Artist { get; set; }
+        [JsonProperty("album_release_date")]
+        public string? ReleaseDate { get; set; }
         [JsonProperty("trackinfo")]
         public Trackinfo[]? TrackInfo { get; set; }
     }
