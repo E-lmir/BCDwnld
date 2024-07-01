@@ -13,7 +13,7 @@ namespace BCDownloader.Models
         public File? File { get; set; }
         public byte[]? Data { get; set; }
         [JsonProperty("artist")]
-        public object? Artist { get; set; }
+        public string? Artist { get; set; }
         [JsonProperty("title")]
         public string? Title { get; set; }
         [JsonProperty("title_link")]
