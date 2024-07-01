@@ -18,11 +18,5 @@ namespace BCDownloader.Models
         public string? Title { get; set; }
         [JsonProperty("title_link")]
         public string? TitleLink { get; set; }
-        [JsonProperty("has_lyrics")]
-        public bool HasLyrics { get; set; }
-        [JsonProperty("duration")]
-        public float Duration { get; set; }
-        [JsonProperty("lyrics")]
-        public string? Lyrics { get; set; }
     }
 }

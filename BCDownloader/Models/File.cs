@@ -10,6 +10,6 @@ namespace BCDownloader.Models
     public class File
     {
         [JsonProperty("mp3-128")]
-        public string? downloadPath { get; set; }
+        public string? DownloadPath { get; set; }
     }
 }
