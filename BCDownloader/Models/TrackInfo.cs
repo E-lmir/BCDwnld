@@ -2,15 +2,17 @@
 
 namespace BCDownloader.Models
 {
-    public record Trackinfo (
+    public record Trackinfo
+    {
         [JsonProperty("file")]
-        File? File,
+        public File? File { get; set; }
         [JsonProperty("Data")]
-        byte[]? Data,
+        public byte[]? Data { get; set; }
         [JsonProperty("artist")]
-        string? Artist,
+        public string? Artist { get; set; }
         [JsonProperty("title")]
-        string? Title,
+        public string? Title { get; set; }
         [JsonProperty("title_link")]
-        string? TitleLink);
+        public string? TitleLink { get; set; }
+    }
 }
