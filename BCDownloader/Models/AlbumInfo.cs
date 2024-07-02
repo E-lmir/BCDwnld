@@ -2,13 +2,11 @@
 
 namespace BCDownloader.Models
 {
-    public class AlbumInfo
-    {
+    public record AlbumInfo(
         [JsonProperty("artist")]
-        public string? Artist { get; set; }
+        string? Artist,
         [JsonProperty("album_release_date")]
-        public string? ReleaseDate { get; set; }
+        string? ReleaseDate,
         [JsonProperty("trackinfo")]
-        public Trackinfo[]? TrackInfo { get; set; }
-    }
+        Trackinfo[]? TrackInfo);
 }
