@@ -5,11 +5,11 @@ using System.Collections.Concurrent;
 
 namespace BCDownloader
 {
-    public static class BCDownloader
+    public class BCDownloader
     {
         private static HttpClient _client = new();
 
-        public static async Task<IEnumerable<Trackinfo>?> GetTracksInfoAsync(string url)
+        public async Task<IEnumerable<Trackinfo>?> GetTracksInfoAsync(string url)
         {
             var document = await GetDocumentAsync(url);
             var albumInfo = GetAlbumInfo(document);
@@ -35,14 +35,14 @@ namespace BCDownloader
             return null;
         }
 
-        private static async Task<string> GetDocumentAsync(string url)
+        private async Task<string> GetDocumentAsync(string url)
         {
             var response = await _client.GetAsync(url);
 
             return await response.Content.ReadAsStringAsync();
         }
 
-        private static AlbumInfo? GetAlbumInfo(string document)
+        private AlbumInfo? GetAlbumInfo(string document)
         {
             var doc = new HtmlDocument();
             doc.LoadHtml(document);
