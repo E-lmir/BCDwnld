@@ -5,9 +5,9 @@ using System.Collections.Concurrent;
 
 namespace BCDownloader
 {
-    public class BCDownloader
+    public class BCDownloader (HttpClient client)
     {
-        private static HttpClient _client = new();
+        private readonly HttpClient _client = client;
 
         public async Task<IEnumerable<Trackinfo>?> GetTracksInfoAsync(string url)
         {
