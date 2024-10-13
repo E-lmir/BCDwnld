@@ -1,7 +1,6 @@
 ﻿using BCDownloader.Models;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
-using System.Collections.Concurrent;
 
 namespace BCDownloader
 {
@@ -9,30 +8,43 @@ namespace BCDownloader
     {
         private readonly HttpClient _client = client;
 
-        public async Task<IEnumerable<Trackinfo>?> GetTracksInfoAsync(string url)
+        public async Task<AlbumInfo?> GetAlbumInfoAsync(string url)
         {
             var document = await GetDocumentAsync(url);
             var albumInfo = GetAlbumInfo(document);
+            albumInfo.CoverData = await GetCoverData(document);
 
             if (albumInfo?.TrackInfo is not null)
             {
-                var data = new ConcurrentBag<Trackinfo>();
+                var trackInfo = albumInfo.TrackInfo.ToList();
+                albumInfo.TrackInfo.Clear();
 
-                await Parallel.ForEachAsync(albumInfo.TrackInfo.ToList(), async (trackInfo, ct) =>
+                await Parallel.ForEachAsync(trackInfo, async (trackInfo, ct) =>
                 {
                     if (trackInfo.File?.DownloadPath is not null)
                     {
                         var response = await _client.GetAsync(trackInfo.File.DownloadPath);
                         trackInfo.Artist ??= albumInfo.Artist;
                         trackInfo.Data = await response.Content.ReadAsByteArrayAsync();
-                        data.Add(trackInfo);
+                        albumInfo.TrackInfo.Add(trackInfo);
                     }
                 });
 
-                return data;
+                return albumInfo;
             }
 
             return null;
+        }
+
+        private async Task<byte[]> GetCoverData(string document)
+        {            
+            var doc = new HtmlDocument();
+            doc.LoadHtml(document);
+            var url = doc.DocumentNode.SelectSingleNode("//*[@id=\"tralbumArt\"]/a/img").GetAttributeValue("src", "");
+            
+            var response = await _client.GetAsync(url);
+
+            return await response.Content.ReadAsByteArrayAsync();
         }
 
         private async Task<string> GetDocumentAsync(string url)

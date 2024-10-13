@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Concurrent;
 
 namespace BCDownloader.Models
 {
@@ -8,5 +9,8 @@ namespace BCDownloader.Models
         [JsonProperty("album_release_date")]
         string? ReleaseDate,
         [JsonProperty("trackinfo")]
-        Trackinfo[]? TrackInfo);
+        ConcurrentBag<Trackinfo>? TrackInfo)
+    {
+        public byte[]? CoverData { get; set; }
+    }
 }
