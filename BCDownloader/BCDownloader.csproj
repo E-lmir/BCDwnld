@@ -4,7 +4,27 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>BandCampDownloader</Title>
+    <Authors>w1r3d</Authors>
+    <Product>BandCampDownloader</Product>
+    <Description>Allow download albums and tracks from BandCamp</Description>
+    <PackageIcon>Nolla.png</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/E-lmir/BCDwnld</RepositoryUrl>
+    <PackAsTool>False</PackAsTool>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Desktop\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\..\..\Downloads\Nolla.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
