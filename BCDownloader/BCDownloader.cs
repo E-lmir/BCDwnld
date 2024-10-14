@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace BCDownloader
 {
-    public class BCDownloader (HttpClient client)
+    public class Downloader (HttpClient client)
     {
         private readonly HttpClient _client = client;
 
