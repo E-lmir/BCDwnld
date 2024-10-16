@@ -6,8 +6,8 @@ namespace BCDownloader.Models
     public record AlbumInfo(
         [JsonProperty("artist")]
         string? Artist,
-        [JsonProperty("title")]
-        string? Title,
+        [JsonProperty("current")]
+        Current? Title,
         [JsonProperty("album_release_date")]
         string? ReleaseDate,
         [JsonProperty("trackinfo")]
@@ -15,4 +15,6 @@ namespace BCDownloader.Models
     {
         public byte[]? CoverData { get; set; }
     }
+
+    public record Current([JsonProperty("title")] string? Title);
 }
